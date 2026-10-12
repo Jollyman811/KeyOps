@@ -1,0 +1,23 @@
+{% extends 'base.html' %}{% block body %}
+<div class="panel">
+  <h2>Chains (LangChain)</h2>
+  <form method="post">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <div class="row">
+      <div><label>Mode</label><br>
+        <select name="mode">
+          <option value="summarize">Summarize</option>
+          <option value="todos">Extract TODOs</option>
+          <option value="reply">Draft reply</option>
+        </select>
+      </div>
+    </div>
+    <label>Text</label><br>
+    <textarea name="text" rows="6" style="width:100%"></textarea>
+    <p><button class="btn">Run</button></p>
+  </form>
+  {% if output %}
+  <div class="panel"><h3>Output</h3><pre style="white-space:pre-wrap">{{ output }}</pre></div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<div class='grid'>
+{% for i in invoices %}
+  <div class='card'>
+    <h3>Invoice #{{ i.id }} — {{ i.to_name }}</h3>
+    <div class='small'>${{ '%.2f'|format(i.amount) }} • Status: <strong>{{ i.status|title }}</strong>
+      {% if i.stripe_checkout_status %} • Checkout: {{ i.stripe_checkout_status }}{% endif %}
+      {% if i.stripe_payment_status %} • Payment: {{ i.stripe_payment_status }}{% endif %}
+    </div>
+    <div class='small'>{{ i.description }}</div>
+    <p>
+      {% if i.stripe_checkout_url %}<a class='btn' href='{{ i.stripe_checkout_url }}' target='_blank' rel='noopener'>Pay now</a>{% endif %}
+      <a class='btn' href='/invoices/refresh/{{ i.id }}'>Refresh status</a>
+    </p>
+    <form method="post" action="/invoices/resend/{{ i.id }}" style="display:inline-block">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <button class="btn" type="submit">Resend invoice</button>
+    </form>
+    <form method="post" action="/invoices/mark-paid/{{ i.id }}" style="display:inline-block; margin-left:8px">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <button class="btn" type="submit">Mark paid</button>
+    </form>
+  </div>
+{% else %}
+  <div class='small'>No invoices yet. Try: <code>create invoice for Sarah 1200 for "Logo design"</code></div>
+{% endfor %}
+</div>

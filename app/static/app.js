@@ -1,0 +1,1 @@
+(function(){const i=document.getElementById('palette-input');window.addEventListener('keydown',(e)=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();i?.focus();i?.select();}});})();

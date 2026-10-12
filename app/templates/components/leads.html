@@ -1,0 +1,30 @@
+<div class="grid">
+{% for l in leads %}
+  <div class="card">
+    <h3>{{ l.name }} {% if l.company %}— {{ l.company }}{% endif %}</h3>
+    <div class="small">
+      {% if l.email %}📧 {{ l.email }} • {% endif %}
+      {% if l.phone %}📞 {{ l.phone }} • {% endif %}
+      Stage: {{ l.stage }} {% if l.budget %}• Budget: ${{ '%.2f'|format(l.budget) }}{% endif %}
+    </div>
+    {% if l.email %}
+    <details style="margin-top:8px">
+      <summary class="small">Send email…</summary>
+      <form method="post" action="/leads/email/{{ l.id }}">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <label>Subject</label><br>
+        <input name="subject" placeholder="Re: Your inquiry about..." style="width:100%"><br>
+        <label>Body</label><br>
+        <textarea name="body" rows="4" style="width:100%">Hi {{ l.name }},
+
+Thanks for reaching out! I'd love to share more details. Do any of these times work for a quick call?</textarea>
+        <p><button class="btn">Send via Gmail</button></p>
+      </form>
+    </details>
+    {% endif %}
+    <p><a class="btn" href="/leads/hold/{{ l.id }}">Create 30‑min hold now</a></p>
+  </div>
+{% else %}
+  <div class="small">No leads yet. Try: <code>new lead Sarah from Orbit Labs, email sarah@orbitlabs.com, budget 12k</code></div>
+{% endfor %}
+</div>

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class='panel'>
+  <h2>Recipes</h2>
+  <form method='post'>
+    <input type='hidden' name='_csrf' value='{{ csrf_token }}'>
+    <div class='row'>
+      <div><label>Name</label><br><input name='name' required></div>
+      <div><label>Trigger</label><br>
+        <select name='trigger_model'>
+          <option value='lead'>Lead</option>
+          <option value='task'>Task</option>
+          <option value='invoice'>Invoice</option>
+        </select>
+      </div>
+    </div>
+    <label>Condition</label><br>
+    <input name='condition' placeholder="e.g., lead.budget and lead.budget > 5000" style='width:100%'>
+
+    <label>Actions (JSON)</label><br>
+    <textarea name='actions_json' rows='6' style='width:100%'>[
+  {"type":"create_task","title":"Follow up with {lead.name}"},
+  {"type":"ai_email","template":"Lead {lead.name} from {lead.company}. Budget: {lead.budget}. Email: {lead.email}","provider":"openai"}
+]</textarea>
+    <p><button class='btn'>Save Recipe</button></p>
+  </form>
+</div>
+
+<div class='panel'>
+  <h3>Existing</h3>
+  <div class='grid'>
+  {% for r in recipes %}
+    <div class='card'>
+      <h3>{{ r.name }}</h3>
+      <div class='small'>Trigger: {{ r.trigger_model }} • Enabled: {{ r.enabled }}</div>
+      <form method="post" action="/recipes/toggle/{{ r.id }}">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <button class="btn" type="submit">{% if r.enabled %}Disable{% else %}Enable{% endif %}</button>
+      </form>
+    </div>
+  {% else %}
+    <div class='small'>No recipes yet.</div>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}

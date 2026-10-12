@@ -1,0 +1,38 @@
+{% extends "base.html" %}{% block body %}
+<div class="panel">
+  <h2>Settings</h2>
+  <h3>Organization</h3>
+  <div class="small">Current org: {{ org.name }} (role: {{ role }})</div>
+</div>
+<div class="panel">
+  <h3>Integrations (OAuth)</h3>
+  <p class="small">Connect your accounts using your provider Client IDs.</p>
+  <p>
+    <a class="btn" href="/oauth/google/login">Connect Google (Gmail/Calendar)</a>
+    <a class="btn" href="/oauth/stripe/login">Connect Stripe</a>
+    <a class="btn" href="/oauth/intuit/login">Connect QuickBooks</a>
+  </p>
+</div>
+<div class="panel">
+  <h3>AI Providers</h3>
+  <form method="post" action="/settings/api-keys">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <div class="row">
+      <div><label>OpenAI Key</label><br><input name="openai" value="{{ openai or '' }}"></div>
+      <div><label>Gemini Key</label><br><input name="gemini" value="{{ gemini or '' }}"></div>
+      <div><label>xAI (Grok) Key</label><br><input name="xai" value="{{ xai or '' }}"></div>
+      <div><label>Ollama Base URL</label><br><input name="ollama" value="{{ ollama or '' }}"></div>
+    </div>
+    <p><button class="btn">Save</button></p>
+  </form>
+</div>
+<div class="panel">
+  <h3>Test Gmail</h3>
+  <form method="post" action="/settings/test-email">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <label>Send a test email to</label><br>
+    <input name="to" placeholder="you@example.com">
+    <p><button class="btn">Send Test</button></p>
+  </form>
+</div>
+{% endblock %}

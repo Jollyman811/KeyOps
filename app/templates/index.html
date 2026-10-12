@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block body %}
+<div class="panel"><div class="kbar">
+  <form hx-post="/intent" hx-target="#results" hx-swap="innerHTML">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <input id="palette-input" name="q" type="text" placeholder="Type a command… (e.g., add task call Megan tomorrow 3pm)">
+  </form>
+  <span class="small">Org: {{ org_name or 'none' }}</span>
+</div></div>
+<div class="grid">
+  <div class="panel"><h2>Tasks <span class="badge">{{ tasks|length }}</span></h2><div id="tasks" hx-get="/tasks" hx-trigger="load"></div></div>
+  <div class="panel"><h2>Leads <span class="badge">{{ leads|length }}</span></h2><div id="leads" hx-get="/leads" hx-trigger="load"></div></div>
+  <div class="panel"><h2>Invoices <span class="badge">{{ invoices|length }}</span></h2><div id="invoices" hx-get="/invoices" hx-trigger="load"></div></div>
+</div>
+<div id="results" class="panel"></div>
+{% endblock %}
