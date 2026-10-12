@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block body %}
+  <div class="kbar panel">
+    <form hx-post="/intent" hx-target="#results" hx-swap="innerHTML">
+      <input id="palette-input" name="q" type="text" placeholder="Type a command… (e.g., add task call Megan tomorrow 3pm)" autocomplete="off">
+    </form>
+    <span class="small">Hint: <span id="hint">add task call Megan tomorrow 3pm</span></span>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Tasks <span class="badge">{{ tasks|length }}</span></h2>
+      <div id="tasks" hx-get="/tasks" hx-trigger="load"></div>
+    </div>
+    <div class="panel">
+      <h2>Leads <span class="badge">{{ leads|length }}</span></h2>
+      <div id="leads" hx-get="/leads" hx-trigger="load"></div>
+    </div>
+    <div class="panel">
+      <h2>Invoices <span class="badge">{{ invoices|length }}</span></h2>
+      <div id="invoices" hx-get="/invoices" hx-trigger="load"></div>
+    </div>
+  </div>
+
+  <div id="results" class="panel"></div>
+{% endblock %}

@@ -1,0 +1,13 @@
+<div class="grid">
+  {% for i in invoices %}
+    <div class="card">
+      <h3>Invoice #{{ i.id }} — {{ i.to_name }}</h3>
+      <div class="small">
+        ${{ '%.2f'|format(i.amount) }} • {{ i.status|title }}
+      </div>
+      <div class="small">{{ i.description }}</div>
+    </div>
+  {% else %}
+    <div class="small">No invoices yet. Try: <code>create invoice for Sarah 1200 for "Logo design"</code></div>
+  {% endfor %}
+</div>

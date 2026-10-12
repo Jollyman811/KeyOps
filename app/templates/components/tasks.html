@@ -1,0 +1,14 @@
+<div class="grid">
+  {% for t in tasks %}
+    <div class="card">
+      <h3>{{ t.title }}</h3>
+      <div class="small">
+        Status: {{ t.status }}
+        {% if t.due %} • Due: {{ t.due.strftime('%b %d %Y %I:%M %p') }}{% endif %}
+      </div>
+      {% if t.notes %}<div class="small">{{ t.notes }}</div>{% endif %}
+    </div>
+  {% else %}
+    <div class="small">No tasks yet. Try: <code>add task call Megan tomorrow 3pm</code></div>
+  {% endfor %}
+</div>
